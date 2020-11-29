@@ -1,10 +1,6 @@
 import { sortReducer as reducer } from './sort';
 import { SORT_ACTIONS as ACTIONS } from '../actions/sort';
 
-function randomStr() {
-	return Math.random().toString(16).substr(2, 8);
-}
-
 describe('Sort reducer', () => {
 	describe('Sort', () => {
 		it('should sort accordingly', () => {
