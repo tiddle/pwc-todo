@@ -16,6 +16,10 @@ function App() {
 		setTask('');
 	}
 
+	function sortBy(sort = 'priority') {
+		
+	}
+
 	return (
 		<div className="App">
 			<header className="App-header">
