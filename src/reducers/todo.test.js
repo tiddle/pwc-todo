@@ -91,5 +91,27 @@ describe('Todo reducer', () => {
 			expect(output[2].id).toEqual(333);
 
 		})
-	})
+	});
+
+	describe('Sort', () => {
+		it('should sort accordingly', () => {
+			const todos = [
+				{id: 111, task: 'A', complete: false, priority: 3 },
+				{id: 222, task: 'B', complete: false, priority: 2 },
+				{id: 333, task: 'C', complete: false, priority: 1 },
+				{id: 444, task: 'C', complete: false, priority: 4 }
+			];
+			const output1 = reducer(todos, { type: ACTIONS.SORT, payload: { sortType: 'task', sortAsc: false}});
+			expect(output1[0].id).toEqual(444);
+
+			const output2 = reducer(output1, { type: ACTIONS.SORT, payload: { sortType: 'priority', sortAsc: true}});
+			expect(output2[0].id).toEqual(333);
+			expect(output2[3].id).toEqual(444);
+
+			const output3 = reducer(output2, { type: ACTIONS.SORT, payload: { sortType: 'task', sortAsc: true}});
+			expect(output3[0].id).toEqual(111);
+			expect(output3[3].id).toEqual(444);
+
+		})
+	});
 })

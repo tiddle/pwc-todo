@@ -1,15 +1,34 @@
 import React from 'react'
 
 import { TODO_ACTIONS as ACTIONS } from '../actions/todo';
+import { SORT_ACTIONS } from '../actions/sort';
+import { sortReducer } from '../reducers/sort';
 
-export default function Todo({ todo, dispatch }) {
+import './Todo.css';
+
+export default function Todo({ todo, dispatch, className, sortDispatch }) {
+	function priorityChange(id, increase = true) {
+		if (increase) {
+			dispatch({ type: ACTIONS.INCREASE_PRIORITY, payload: { id } });
+		} else {
+			dispatch({ type: ACTIONS.DECREASE_PRIORITY, payload: { id } });
+		}
+		sortDispatch({ type: SORT_ACTIONS.FORCE, payload: { sortType: 'priority', sortAsc: true } });
+	}
+
 	return (
-		<div>
-			<span style={{ color: todo.complete ? '#aaa' : '#000' }} onClick={() => dispatch({ type: ACTIONS.TOGGLE_TODO, payload: { id: todo.id } })}>{todo.task}</span>
-			<span>{todo.priority}</span>
-			<button onClick={() => dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })}>x</button>
-			<button onClick={() => dispatch({ type: ACTIONS.DECREASE_PRIORITY, payload: { id: todo.id } })}>-</button>
-			<button onClick={() => dispatch({ type: ACTIONS.INCREASE_PRIORITY, payload: { id: todo.id } })}>+</button>
-		</div>
+		<>
+			<div className="task-name" onClick={() => dispatch({ type: ACTIONS.TOGGLE_TODO, payload: { id: todo.id } })}>
+				<span style={{ textDecoration: todo.complete ? 'line-through' : 'none' }} className={className} >{todo.task}</span>
+			</div>
+			<div className="task-priority">
+				{todo.priority}
+			</div>
+			<div className="task-actions">
+				<button onClick={() => dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })}>x</button>
+				<button onClick={() => priorityChange(todo.id, false)}>-</button>
+				<button onClick={() => priorityChange(todo.id)}>+</button>
+			</div>
+		</>
 	)
 }

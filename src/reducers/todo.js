@@ -6,7 +6,7 @@ import { TODO_ACTIONS } from '../actions/todo';
  * @param {Number} Priority 
  */
 function newTodo(task, priority) {
-	return { id: Date.now(), task, complete: false, priority};
+	return { id: Date.now(), task, complete: false, priority };
 }
 
 /**
@@ -44,6 +44,33 @@ export function todoReducer(todos, action) {
 				})
 				.sort((a, b) => a.priority - b.priority)
 				.map((todo, i) => { return { ...todo, priority: i + 1 } });
+		case TODO_ACTIONS.SORT:
+			const sorted = todos.sort((a, b) => {
+				switch (action.payload.sortType) {
+					case 'task':
+						let taskA = a.task.toUpperCase();
+						let taskB = b.task.toUpperCase();
+
+						if (taskA < taskB) {
+							return -1;
+						}
+
+						if (taskA > taskB) {
+							return 1;
+						}
+
+						return 0;
+					case 'priority':
+					default:
+						return a.priority - b.priority;
+				}
+			})
+
+			if(!action.payload.sortAsc) {
+				return sorted.reverse();
+			}
+
+			return sorted;
 		default:
 			return todos;
 	}

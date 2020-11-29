@@ -1,0 +1,18 @@
+.task-name {
+  grid-column: 1 / 1;
+  overflow: hidden;
+  text-align: left;
+}
+
+.task-priority {
+  grid-column: 2 / 2;
+}
+
+.task-actions {
+  grid-column: 3 / 3;
+  text-align: right;
+}
+
+.task-wrapper {
+    border-bottom: 1px solid black;
+}
